@@ -36,6 +36,11 @@
                 <i class="fas fa-fw fa-calendar-alt"></i>
                 <span>Jadwal Konsultasi</span></a>
         </li>
+        <li class="nav-item {{ Request::is('admin/bimbingan-akademik') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.bimbingan-akademik.index') }}">
+                <i class="fas fa-fw fa-calendar-alt"></i>
+                <span>Bimbingan Akademik</span></a>
+        </li>
     @endif
 
     @if (Auth::user()->role == 'user')

@@ -44,6 +44,7 @@
                             <th>Topik</th>
                             <th>Waktu & Tanggal</th>
                             <th class="text-center">Status</th>
+                            <th>Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,6 +76,7 @@
                                         
                                 @endswitch
                             </td>
+                            <td>{{ $item->keterangan }}</td>
                         </tr>
                     @endforeach
                     </tbody>

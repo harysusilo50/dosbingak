@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\Inventory\InventoryController as AdminInventoryController;
 use App\Http\Controllers\Admin\Jadwal_bimbingan\JadwalBimbinganController;
-use App\Http\Controllers\Admin\Machine\MachineController as AdminMachineController;
-use App\Http\Controllers\Admin\Task\TaskController;
 use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pages\BimbinganAkademik\BimbinganAkademikController;
+use App\Http\Controllers\Admin\BimbinganAkademik\BimbinganAkademikController as AdminBimbinganAkademikController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\Inventory\InventoryController;
 use App\Http\Controllers\Pages\Inventory\WeeklyBreakageController;
@@ -62,4 +60,8 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/jadwal-bimbingan/create', [JadwalBimbinganController::class, 'create'])->name('jadwal-bimbingan.create');
     Route::post('/jadwal-bimbingan/store', [JadwalBimbinganController::class, 'store'])->name('jadwal-bimbingan.store');
     Route::delete('/jadwal-bimbingan/delete/{id}', [JadwalBimbinganController::class, 'destroy'])->name('jadwal-bimbingan.destroy');
+
+    Route::get('/bimbingan-akademik', [AdminBimbinganAkademikController::class, 'index'])->name('admin.bimbingan-akademik.index');
+    Route::post('/bimbingan-akademik/setujui', [AdminBimbinganAkademikController::class, 'setujui_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.setujui');
+    Route::post('/bimbingan-akademik/tolak', [AdminBimbinganAkademikController::class, 'tolak_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.tolak');
 });
