@@ -14,7 +14,11 @@ class JadwalBimbinganController extends Controller
 {
     public function index(Request $request)
     {
-        $selected_dosen = $request->nama_dosen_pa ?? '';
+        if (Auth::user()->role == 'dosen') {
+            $selected_dosen = Auth::id();
+        } else {
+            $selected_dosen = $request->nama_dosen_pa ?? '';
+        }
         $dosen = User::where('role', 'dosen')->get();
         $jadwal = JadwalBimbingan::with('dosen')->when($selected_dosen, function ($query) use ($selected_dosen) {
             return $query->where('dosen_id', $selected_dosen);

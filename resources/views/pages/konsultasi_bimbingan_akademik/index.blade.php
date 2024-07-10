@@ -46,10 +46,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Users Container
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Users Container
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ************************************************/
 
         .users-container {
             position: relative;
@@ -64,10 +64,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Users
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   Users
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ************************************************/
 
         .users {
             padding: 0;
@@ -189,10 +189,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Chat right side
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Chat right side
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ************************************************/
 
         .selected-user {
             width: 100%;
@@ -422,6 +422,54 @@
                 <!-- Card Body -->
                 <div class="card-body">
                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td>Mahasiswa</td>
+                                <td>{{ $konsultasi->mahasiswa->nama }}</td>
+                            </tr>
+                            <tr>
+                                <td>NIM</td>
+                                <td>{{ $konsultasi->mahasiswa->noreg }}</td>
+                            </tr>
+                            <tr>
+                                <td>Dosen PA</td>
+                                <td>{{ $konsultasi->mahasiswa->nama_dosen_pa }}</td>
+                            </tr>
+                            <tr>
+                                <td>Topik</td>
+                                <td>{{ $konsultasi->topik }}</td>
+                            </tr>
+                            <tr>
+                                <td>Waktu</td>
+                                <td>{{ $konsultasi->format_tgl_konsultasi }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>
+                                    @switch($konsultasi->status)
+                                        @case('menunggu')
+                                            <span class="badge badge-pill badge-warning">Menuggu</span>
+                                        @break
+
+                                        @case('disetujui')
+                                            <span class="badge badge-pill badge-success">Disetujui</span>
+                                        @break
+
+                                        @case('ditolak')
+                                            <span class="badge badge-pill badge-danger">Ditolak</span>
+                                        @break
+
+                                        @case('selesai')
+                                            <span class="badge badge-pill badge-primary">Selesai</span>
+                                        @break
+
+                                        @default
+                                            <span class="badge badge-pill badge-secondary">{{ $item->status }}</span>
+                                        @break
+                                    @endswitch
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -483,19 +531,21 @@
                         @endforeach
                     </ul>
                 </div>
-                <form action="{{ route('konsultasi-bimbingan-akademik.store') }}" method="POST">
-                    @csrf
-                    <div class="card-footer">
-                        <div class="row mt-3 mb-0">
-                            <input type="number" name="bimbingan_id" class="d-none" value="{{ $konsultasi->id }}">
-                            <textarea class="form-control col-10 col-lg-11" rows="3" name="pesan" placeholder="Type your message here..."></textarea>
-                            <div class="col-2 col-lg-1 mx-auto px-1 text-center">
-                                <button class="btn btn-primary text-center" type="submit">
-                                    <i class="fas fa-fw fa-paper-plane m-auto"></i></button>
+                @if ($konsultasi->status != 'selesai' && $konsultasi->status != 'ditolak')
+                    <form action="{{ route('konsultasi-bimbingan-akademik.store') }}" method="POST">
+                        @csrf
+                        <div class="card-footer">
+                            <div class="row mt-3 mb-0">
+                                <input type="number" name="bimbingan_id" class="d-none" value="{{ $konsultasi->id }}">
+                                <textarea class="form-control col-10 col-lg-11" rows="3" name="pesan" placeholder="Type your message here..."></textarea>
+                                <div class="col-2 col-lg-1 mx-auto px-1 text-center">
+                                    <button class="btn btn-primary text-center" type="submit">
+                                        <i class="fas fa-fw fa-paper-plane m-auto"></i></button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

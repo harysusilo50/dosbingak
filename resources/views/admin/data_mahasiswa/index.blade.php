@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', 'Bimbingan Akademik')
+@section('title', 'Data Mahasiswa')
 @section('css')
     <style>
         .card {
@@ -12,7 +12,7 @@
         <!-- Card Header - Dropdown -->
         <div
             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"style="border-radius: 10px 10px 0px 0px">
-            <h6 class="m-0 font-weight-bold text-muted"><i class="fas fa-chalkboard-teacher mr-1"></i> Bimbingan Akademik</h6>
+            <h6 class="m-0 font-weight-bold text-muted"><i class="fas fa-bar-chart mr-1"></i> Data Mahasiswa Bimbingan</h6>
         </div>
         <!-- Card Body -->
         <div class="card-body">

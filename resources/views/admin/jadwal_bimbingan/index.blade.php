@@ -9,7 +9,7 @@
                     <label class="col-form-label text-dark col-lg-3" for="nama_dosen_pa" style="font-weight: 500">Nama Dosen
                         PA</label>
                     <div class=" col-lg-6 input-group">
-                        <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" required>
+                        <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" required  {{ Auth::user()->role == 'dosen' ? 'disabled':'' }}>
                             <option value="" selected>- Pilih Dosen Pembimbing -</option>
                             @foreach ($dosen as $item)
                                 <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>

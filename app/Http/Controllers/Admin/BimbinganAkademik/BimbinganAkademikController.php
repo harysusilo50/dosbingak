@@ -65,10 +65,29 @@ class BimbinganAkademikController extends Controller
             $data->status = 'ditolak';
             $data->keterangan = $request->keterangan;
             $data->save();
-            
+
             DB::commit();
             Alert::success('Success', 'Konsultasi Bimbingan Akademik Berhasil Ditolak');
             return redirect()->back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Failed', $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
+    public function selesaikan_konsultasi_bimbingan($bimbingan_id)
+    {
+        try {
+            DB::beginTransaction();
+            $data = BimbinganAkademik::findOrFail($bimbingan_id);
+            $data->status = 'selesai';
+            $data->save();
+            
+            DB::commit();
+            Alert::success('Success', 'Konsultasi Bimbingan Akademik Berhasil diselesaikan');
+            return redirect()->route('admin.bimbingan-akademik.index');
+
         } catch (\Throwable $th) {
             DB::rollBack();
             Alert::error('Failed', $th->getMessage());

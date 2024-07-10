@@ -19,7 +19,7 @@
                             {{ Auth::user()->role == 'dosen' ? 'readonly' : '' }}>
                             <option value="" selected>- Pilih Dosen Pembimbing -</option>
                             @foreach ($dosen as $item)
-                                <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>
+                                <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : 'disabled' }}>
                                     {{ $item->nama }}</option>
                             @endforeach
                         </select>

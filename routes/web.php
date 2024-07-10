@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/bimbingan-akademik', [AdminBimbinganAkademikController::class, 'index'])->name('admin.bimbingan-akademik.index');
     Route::post('/bimbingan-akademik/setujui', [AdminBimbinganAkademikController::class, 'setujui_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.setujui');
     Route::post('/bimbingan-akademik/tolak', [AdminBimbinganAkademikController::class, 'tolak_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.tolak');
+    Route::get('/bimbingan-akademik/selesaikan/{bimbingan_id}', [AdminBimbinganAkademikController::class, 'selesaikan_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.selesai');
 
     Route::get('/konsultasi-bimbingan-akademik', [AdminKonsultasiBimbinganAkademikController::class, 'index'])->name('admin.konsultasi-bimbingan-akademik.index');
     Route::post('/konsultasi-bimbingan-akademik/send-message', [AdminKonsultasiBimbinganAkademikController::class, 'store'])->name('admin.konsultasi-bimbingan-akademik.store');

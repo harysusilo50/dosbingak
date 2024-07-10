@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BimbinganAkademik;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -14,6 +17,10 @@ class DashboardController extends Controller
 
     public function index()
     {
-        return view('admin.dashboard');
+        $userTotal = BimbinganAkademik::where('dosen_id',Auth::id())->where('status','!=','ditolak')->count();
+        $userBimbingan = BimbinganAkademik::where('dosen_id',Auth::id())->where('status','selesai')->count();
+        $presentasi = (100*$userBimbingan)/$userTotal;
+
+        return view('admin.dashboard', compact('presentasi'));
     }
 }
