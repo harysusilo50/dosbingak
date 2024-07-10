@@ -17,9 +17,13 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $userTotal = BimbinganAkademik::where('dosen_id',Auth::id())->where('status','!=','ditolak')->count()??0;
-        $userBimbingan = BimbinganAkademik::where('dosen_id',Auth::id())->where('status','selesai')->count()??0;
-        $presentasi = (100*$userBimbingan)/$userTotal;
+        $userTotal = BimbinganAkademik::where('dosen_id', Auth::id())->where('status', '!=', 'ditolak')->count();
+        $userBimbingan = BimbinganAkademik::where('dosen_id', Auth::id())->where('status', 'selesai')->count();
+        if (empty($userTotal)) {
+            $presentasi = 0;
+        } else {
+            $presentasi = (100 * $userBimbingan) / $userTotal;
+        }
 
         return view('admin.dashboard', compact('presentasi'));
     }
