@@ -12,7 +12,7 @@ class CheckAdmin
     public function handle(Request $request, Closure $next)
     {
         $check = Auth::user()->role ?? '';
-        if ($check == 'admin') {
+        if ($check == 'admin' || 'dosen') {
             return $next($request);
         } else {
             abort(403);
