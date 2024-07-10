@@ -17,9 +17,9 @@ class BimbinganAkademikController extends Controller
     public function index()
     {
         $semesterNow = $this->cekSemester();
-        $checkBimbinganSemester = BimbinganAkademik::where(['semester'=>$semesterNow,'mahasiswa_id'=>Auth::id()])->first();
+        $checkBimbinganSemester = BimbinganAkademik::where(['semester' => $semesterNow, 'mahasiswa_id' => Auth::id()])->first();
         $bimbinganAkedmik = BimbinganAkademik::where('mahasiswa_id', Auth::id())->get();
-        return view('pages.bimbingan_akademik.index',compact('checkBimbinganSemester','semesterNow','bimbinganAkedmik'));
+        return view('pages.bimbingan_akademik.index', compact('checkBimbinganSemester', 'semesterNow', 'bimbinganAkedmik'));
     }
 
     public function create()
@@ -46,11 +46,12 @@ class BimbinganAkademikController extends Controller
 
             $konsultasi = new KonsultasiBimbinganAkademik();
             $konsultasi->bimbingan_akademik_id = $bimbingan->id;
+            $konsultasi->user_id = Auth::id();
             $konsultasi->pesan = $request->pesan ?? '';
             $konsultasi->save();
 
             DB::commit();
-            Alert::success('Success','Berhasil membuat pengajuan konsultasi');
+            Alert::success('Success', 'Berhasil membuat pengajuan konsultasi');
             return redirect()->route('bimbingan-akademik.index');
         } catch (\Throwable $th) {
             DB::rollBack();

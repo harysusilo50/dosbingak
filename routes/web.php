@@ -6,9 +6,11 @@ use App\Http\Controllers\Admin\User\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pages\BimbinganAkademik\BimbinganAkademikController;
 use App\Http\Controllers\Admin\BimbinganAkademik\BimbinganAkademikController as AdminBimbinganAkademikController;
+use App\Http\Controllers\Admin\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController as AdminKonsultasiBimbinganAkademikController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\Inventory\InventoryController;
 use App\Http\Controllers\Pages\Inventory\WeeklyBreakageController;
+use App\Http\Controllers\Pages\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController;
 use App\Http\Controllers\Pages\Loan\LoanController;
 use App\Http\Controllers\Pages\Machine\DailyScoopController;
 use App\Http\Controllers\Pages\Machine\HighTempMachineController;
@@ -35,13 +37,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/bimbingan-akademik', [BimbinganAkademikController::class, 'index'])->name('bimbingan-akademik.index');
         Route::get('/bimbingan-akademik/create', [BimbinganAkademikController::class, 'create'])->name('bimbingan-akademik.create');
         Route::post('/bimbingan-akademik/store', [BimbinganAkademikController::class, 'store'])->name('bimbingan-akademik.store');
-        
+
         Route::get('/persetujuan-krs', [ValidasiKrsController::class, 'index'])->name('validasi-krs.index');
         Route::get('/persetujuan-krs/create', [ValidasiKrsController::class, 'create'])->name('validasi-krs.create');
         Route::post('/persetujuan-krs/store', [ValidasiKrsController::class, 'store'])->name('validasi-krs.store');
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+
+        Route::get('/konsultasi-bimbingan-akademik', [KonsultasiBimbinganAkademikController::class, 'index'])->name('konsultasi-bimbingan-akademik.index');
+        Route::post('/konsultasi-bimbingan-akademik/send-message', [KonsultasiBimbinganAkademikController::class, 'store'])->name('konsultasi-bimbingan-akademik.store');
     });
 });
 
@@ -64,4 +69,7 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/bimbingan-akademik', [AdminBimbinganAkademikController::class, 'index'])->name('admin.bimbingan-akademik.index');
     Route::post('/bimbingan-akademik/setujui', [AdminBimbinganAkademikController::class, 'setujui_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.setujui');
     Route::post('/bimbingan-akademik/tolak', [AdminBimbinganAkademikController::class, 'tolak_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.tolak');
+
+    Route::get('/konsultasi-bimbingan-akademik', [AdminKonsultasiBimbinganAkademikController::class, 'index'])->name('admin.konsultasi-bimbingan-akademik.index');
+    Route::post('/konsultasi-bimbingan-akademik/send-message', [AdminKonsultasiBimbinganAkademikController::class, 'store'])->name('admin.konsultasi-bimbingan-akademik.store');
 });

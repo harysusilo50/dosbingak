@@ -16,7 +16,7 @@
 <body style="background: #DBF8FF" id="page-top">
     @include('sweetalert::alert')
     <div id="content-wrapper">
-        <div class="" id="content">
+        <div class="mb-3" id="content">
             <div class="px-lg-3 px-1 pt-1 pt-lg-3">
                 @include('layout.navbar')
             </div>

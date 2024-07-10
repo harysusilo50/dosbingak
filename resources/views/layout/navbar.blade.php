@@ -176,7 +176,13 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-white small">{{ Auth::user()->nama }}</span>
                     <div class="topbar-divider d-none d-sm-block"></div>
-                    <img class="img-profile rounded-circle" src="{{ asset('img/user.png') }}">
+                    <img class="img-profile rounded-circle"
+                        src="
+                    @if (Auth::user()->role == 'admin') {{ asset('img/admin.png') }}
+                    @elseif(Auth::user()->role == 'dosen')
+                        {{ asset('img/dosen.png') }}
+                         @else
+                         {{ asset('img/user.png') }} @endif">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

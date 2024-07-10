@@ -38,7 +38,7 @@
         </li>
         <li class="nav-item {{ Request::is('admin/bimbingan-akademik') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.bimbingan-akademik.index') }}">
-                <i class="fas fa-fw fa-calendar-alt"></i>
+                <i class="fas fa-chalkboard-teacher mr-1"></i>
                 <span>Bimbingan Akademik</span></a>
         </li>
     @endif
