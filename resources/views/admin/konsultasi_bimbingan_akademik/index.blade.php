@@ -46,10 +46,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Users Container
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Users Container
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ************************************************/
 
         .users-container {
             position: relative;
@@ -64,10 +64,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Users
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Users
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ************************************************/
 
         .users {
             padding: 0;
@@ -189,10 +189,10 @@
 
 
         /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Chat right side
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Chat right side
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ************************************************
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ************************************************/
 
         .selected-user {
             width: 100%;
@@ -501,7 +501,7 @@
                                 </div>
                             @endif
                             @if ($konsultasi->mahasiswa->id == $chat->user_id)
-                                <li class="chat-left">
+                                <li class="chat-left konsul" id="konsul_{{ $chat->id }}">
                                     <div class="chat-avatar">
                                         <img src="{{ asset('img/user.png') }}">
                                         <div class="chat-name text-white text-wrap text-left">
@@ -512,7 +512,7 @@
                                     <div class="chat-hour text-white">{{ $chat->format_jam_chat }}</div>
                                 </li>
                             @elseif (App\Models\User::where('id', $chat->user_id)->value('role') == 'admin')
-                                <li class="chat-right">
+                                <li class="chat-right konsul" id="konsul_{{ $chat->id }}">
                                     <div class="chat-hour text-white">{{ $chat->format_jam_chat }}</div>
                                     <div class="chat-text-dosen">{{ $chat->pesan }}
                                     </div>
@@ -523,7 +523,7 @@
                                     </div>
                                 </li>
                             @else
-                                <li class="chat-right">
+                                <li class="chat-right konsul" id="konsul_{{ $chat->id }}">
                                     <div class="chat-hour text-white">{{ $chat->format_jam_chat }}</div>
                                     <div class="chat-text-dosen">{{ $chat->pesan }}
                                     </div>
@@ -555,4 +555,56 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        $(document).ready(function() {
+            function getUrl() {
+                $.ajax({
+                    url: "{{ route('konsultasi-bimbingan-akademik.get_latest_chat') }}",
+                    data: {
+                        bimbingan_id: "{{ $konsultasi->id }}"
+                    },
+                    type: 'GET',
+                    success: function(data) {
+                        var konsulElements = $('.konsul');
+                        if (konsulElements.last().attr('id') != `konsul_${data.id}`) {
+                            var image = "";
+                            if (data.role == 'dosen') {
+                                image = "{{ asset('img/dosen.png') }}"
+                            } else if (data.role == 'admin') {
+                                image = "{{ asset('img/admin.png') }}"
+                            } else {
+                                image = "{{ asset('img/user.png') }}"
+                            }
+                            var leftRight = ""
+                            if (data.role != "user") {
+                                leftRight = "chat-right"
+                            } else {
+                                leftRight = "chat-left"
+                            }
+                            var pesan = `
+                              <li class="${leftRight} konsul" id="konsul_${data.id}">
+                                    <div class="chat-hour text-white">${data.format_jam_chat}</div>
+                                    <div class="chat-text-dosen">${data.pesan}
+                                    </div>
+                                    <div class="chat-avatar">
+                                        <img src="${image}">
+                                        <div class="chat-name text-white text-wrap text-right">
+                                        ${data.nama}</div>
+                                    </div>
+                                </li>
+                            `;
+                            $('.chat-box').append(pesan)
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            setInterval(getUrl, 5000);
+        });
+    </script>
 @endsection
