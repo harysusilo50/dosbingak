@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\KonsultasiBimbinganAkademik;
 use App\Http\Controllers\Controller;
 use App\Models\BimbinganAkademik;
 use App\Models\KonsultasiBimbinganAkademik;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,5 +38,18 @@ class KonsultasiBimbinganAkademikController extends Controller
             Alert::error('Failed', $th->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function get_latest_chat(Request $request)
+    {
+        $latestChat = KonsultasiBimbinganAkademik::where('bimbingan_akademik_id', $request->bimbingan_id)->latest()->first();
+        $user = User::findOrFail($latestChat->user_id);
+        Carbon::setLocale('id');
+        $latestChat['format_jam_chat'] = Carbon::parse($latestChat->created_at)->isoFormat('HH:mm');
+        $latestChat['format_tgl_chat'] = Carbon::parse($latestChat->created_at)->isoFormat('D MMMM Y');
+        $latestChat['role'] = $user->role;
+        $latestChat['nama'] = $user->nama ?? "";
+
+        return response()->json($latestChat);
     }
 }
