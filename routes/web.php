@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/konsultasi-bimbingan-akademik', [KonsultasiBimbinganAkademikController::class, 'index'])->name('konsultasi-bimbingan-akademik.index');
         Route::post('/konsultasi-bimbingan-akademik/send-message', [KonsultasiBimbinganAkademikController::class, 'store'])->name('konsultasi-bimbingan-akademik.store');
+        Route::get('/konsultasi-bimbingan-akademik/get-latest-chat', [KonsultasiBimbinganAkademikController::class, 'get_latest_chat'])->name('konsultasi-bimbingan-akademik.get_latest_chat');
     });
 });
 
@@ -73,5 +74,5 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
 
     Route::get('/konsultasi-bimbingan-akademik', [AdminKonsultasiBimbinganAkademikController::class, 'index'])->name('admin.konsultasi-bimbingan-akademik.index');
     Route::post('/konsultasi-bimbingan-akademik/send-message', [AdminKonsultasiBimbinganAkademikController::class, 'store'])->name('admin.konsultasi-bimbingan-akademik.store');
-    Route::get('/konsultasi-bimbingan-akademik/get-latest-chat', [AdminKonsultasiBimbinganAkademikController::class, 'get_latest_chat'])->name('konsultasi-bimbingan-akademik.get_latest_chat');
+    Route::get('/konsultasi-bimbingan-akademik/get-latest-chat', [AdminKonsultasiBimbinganAkademikController::class, 'get_latest_chat'])->name('admin.konsultasi-bimbingan-akademik.get_latest_chat');
 });
