@@ -29,45 +29,45 @@
             </div>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-secondary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 font-weight-bold text-success mb-1">
-                                Total Dosen PA Ilmu Komputer</div>
+                            <div class="h5 font-weight-bold text-secondary mb-1">
+                                Validasi KRS</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-user-md fa-3x text-gray-300"></i>
+                            <i class="fas fa-list fa-3x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
-                <a class="card-footer py-0 text-decoration-none text-center text-success" href="">
+                <a class="card-footer py-0 text-decoration-none text-center text-secondary" href="{{ route('admin.validasi-krs.index') }}">
                     <small class="my-auto font">More Info <i class="fas fa-fw fa-arrow-alt-circle-right"></i></small>
                 </a>
             </div>
         </div>
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card border-left-info shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h6 font-weight-bold text-info mb-1">
-                                Total Mahasiswa yang Bimbingan Akademik
+                            <div class="h6 font-weight-bold text-primary mb-1">
+                                Data Mahasiswa Bimbingan
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-chalkboard-teacher fa-3x text-gray-300"></i>
+                            <i class="fas fa-chart-bar fa-3x text-gray-300"></i>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-middle text-center" style="height: 24px">
                         <p class="h5 font-weight-bold align-middle">{{ $presentasi }}%</p>
                         <div class="progress w-75 my-auto" >
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
                                 aria-valuenow="{{ $presentasi }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $presentasi }}%"></div>
                         </div>
                     </div>
                 </div>
-                <a class="card-footer py-0 text-decoration-none text-center text-info" href="">
+                <a class="card-footer py-0 text-decoration-none text-center" href="">
                     <small class="my-auto font">More Info <i class="fas fa-fw fa-arrow-alt-circle-right"></i></small>
                 </a>
             </div>
@@ -75,7 +75,14 @@
     </div>
     <div class="card">
         <div class="card-body">
-
+            <h4 class="text-danger font-weight-bold mb-4"> <i class="fas fa-fw fa-bullhorn"></i> Perhatian !!!</h4>
+            <p class="text-justify">"Setiap mahasiswa diwajibkan untuk menjalani sesi bimbingan akademik paling tidak satu
+                kali dalam seminggu.
+                Hal ini bertujuan untuk memberikan dukungan dan bimbingan yang konsisten agar mahasiswa dapat meraih potensi
+                akademiknya secara maksimal. Dengan mengintegrasikan bimbingan rutin ini, diharapkan mahasiswa dapat
+                mengidentifikasi tantangan, menyelesaikan masalah akademik, dan meningkatkan pencapaian studi. Keterlibatan
+                aktif dalam bimbingan akademik ini akan membantu membentuk mahasiswa menjadi individu yang mandiri dan
+                sukses dalam perjalanan akademik mereka."</p>
         </div>
     </div>
 @endsection
