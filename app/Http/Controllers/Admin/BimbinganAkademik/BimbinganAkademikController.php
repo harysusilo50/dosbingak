@@ -26,7 +26,7 @@ class BimbinganAkademikController extends Controller
         $selected_status = $request->status ?? '';
         $dosen = User::where('role', 'dosen')->get();
 
-        $bimbinganAkedmik = BimbinganAkademik::with('dosen')
+        $bimbinganAkedmik = BimbinganAkademik::with('dosen','mahasiswa')
             ->when($selected_dosen, function ($query) use ($selected_dosen) {
                 return $query->where('dosen_id', $selected_dosen);
             })

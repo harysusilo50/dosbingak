@@ -7,17 +7,12 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pages\BimbinganAkademik\BimbinganAkademikController;
 use App\Http\Controllers\Admin\BimbinganAkademik\BimbinganAkademikController as AdminBimbinganAkademikController;
 use App\Http\Controllers\Admin\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController as AdminKonsultasiBimbinganAkademikController;
+use App\Http\Controllers\Admin\ValidasiKrs\ValidasiKrsController as AdminValidasiKrsController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\Inventory\InventoryController;
 use App\Http\Controllers\Pages\Inventory\WeeklyBreakageController;
 use App\Http\Controllers\Pages\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController;
-use App\Http\Controllers\Pages\Loan\LoanController;
-use App\Http\Controllers\Pages\Machine\DailyScoopController;
-use App\Http\Controllers\Pages\Machine\HighTempMachineController;
-use App\Http\Controllers\Pages\Machine\IceMachineController;
-use App\Http\Controllers\Pages\Machine\ManualPotSinkController;
 use App\Http\Controllers\Pages\Profile\ProfileController;
-use App\Http\Controllers\Pages\TaskList\TaskListController;
 use App\Http\Controllers\Pages\User\VerifyController;
 use App\Http\Controllers\Pages\ValidasiKrs\ValidasiKrsController;
 use App\Models\HighTempMachine;
@@ -75,4 +70,8 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/konsultasi-bimbingan-akademik', [AdminKonsultasiBimbinganAkademikController::class, 'index'])->name('admin.konsultasi-bimbingan-akademik.index');
     Route::post('/konsultasi-bimbingan-akademik/send-message', [AdminKonsultasiBimbinganAkademikController::class, 'store'])->name('admin.konsultasi-bimbingan-akademik.store');
     Route::get('/konsultasi-bimbingan-akademik/get-latest-chat', [AdminKonsultasiBimbinganAkademikController::class, 'get_latest_chat'])->name('admin.konsultasi-bimbingan-akademik.get_latest_chat');
+
+    Route::get('/persetujuan-krs', [AdminValidasiKrsController::class, 'index'])->name('admin.validasi-krs.index');
+    Route::post('/persetujuan-krs/setujui', [AdminValidasiKrsController::class, 'setujui_krs_bimbingan'])->name('admin.validasi-krs.setujui');
+    Route::post('/persetujuan-krs/tolak', [AdminValidasiKrsController::class, 'tolak_krs_bimbingan'])->name('admin.validasi-krs.tolak');
 });

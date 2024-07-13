@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $append = ['format_nama_chat'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -60,5 +62,13 @@ class User extends Authenticatable
     public function verificationUser()
     {
         return $this->hasOne(VerificationUser::class);
+    }
+
+    public function getFormatNamaChatAttribute()
+    {
+        if (strlen($this->attributes['nama']) > 8) {
+            return substr($this->attributes['nama'], 0, 8) . '...';
+        }
+        return $this->attributes['nama'];
     }
 }

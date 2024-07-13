@@ -44,13 +44,6 @@
             }
         }
 
-
-        /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Users Container
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
-
         .users-container {
             position: relative;
             padding: 1rem 0;
@@ -61,13 +54,6 @@
             -ms-flex-direction: column;
             flex-direction: column;
         }
-
-
-        /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Users
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
 
         .users {
             padding: 0;
@@ -186,13 +172,6 @@
                 display: none;
             }
         }
-
-
-        /************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         Chat right side
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ************************************************
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ************************************************/
 
         .selected-user {
             width: 100%;
@@ -505,7 +484,7 @@
                                     <div class="chat-avatar">
                                         <img src="{{ asset('img/user.png') }}">
                                         <div class="chat-name text-white text-wrap text-left">
-                                            {{ $konsultasi->mahasiswa->nama }}</div>
+                                            {{ $konsultasi->mahasiswa->format_nama_chat }}</div>
                                     </div>
                                     <div class="chat-text">{{ $chat->pesan }}
                                     </div>
@@ -519,7 +498,7 @@
                                     <div class="chat-avatar">
                                         <img src="{{ asset('img/admin.png') }}">
                                         <div class="chat-name text-white text-wrap text-right">
-                                            Administrator</div>
+                                            Admin</div>
                                     </div>
                                 </li>
                             @else
@@ -530,7 +509,7 @@
                                     <div class="chat-avatar">
                                         <img src="{{ asset('img/dosen.png') }}">
                                         <div class="chat-name text-white text-wrap text-right">
-                                            {{ $konsultasi->dosen->nama }}</div>
+                                            {{ $konsultasi->dosen->format_nama_chat }}</div>
                                     </div>
                                 </li>
                             @endif

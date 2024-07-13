@@ -58,6 +58,11 @@
                 <i class="fas fa-chalkboard-teacher mr-1"></i>
                 <span>Bimbingan Akademik</span></a>
         </li>
+        <li class="nav-item {{ Request::is('admin/persetujuan-krs') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.validasi-krs.index') }}">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Persetujuan KRS</span></a>
+        </li>
     @endif
 
     @if (Auth::user()->role == 'user')
