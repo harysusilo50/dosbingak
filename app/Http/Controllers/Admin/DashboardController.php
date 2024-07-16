@@ -29,8 +29,28 @@ class DashboardController extends Controller
             return view('admin.dashboard_dosen', compact('presentasi'));
         }
 
-        $totalMahasiswa = User::where('role','user')->count();
-        $totalDosen = User::where('role','dosen')->count();
+        $totalMahasiswa = User::where('role', 'user')->count();
+        $totalDosen = User::where('role', 'dosen')->count();
+
+        $listDosen = User::where('role', 'dosen')->get(['id', 'nama']);
+
+        $chartBimbingan = [];
+        foreach ($listDosen as $key => $item) {
+            $bimbinganDosenTotal = BimbinganAkademik::where('dosen_id', $item->id)->where('status', '!=', 'ditolak')->count();
+            $bimbinganSelesai = BimbinganAkademik::where('dosen_id', $item->id)->where('status', 'selesai')->count();
+
+            if (empty($bimbinganDosenTotal)) {
+                $presentasi = 0;
+            } else {
+                $presentasi = (100 * $bimbinganSelesai) / $bimbinganDosenTotal;
+            }
+
+            $chartBimbingan[$key] = [
+                'nama_dosen' => $item->nama,
+                'presentase' => $presentasi,
+
+            ];
+        }
 
         $userTotal = BimbinganAkademik::where('status', '!=', 'ditolak')->count();
         $userBimbingan = BimbinganAkademik::where('status', 'selesai')->count();
@@ -40,6 +60,6 @@ class DashboardController extends Controller
             $presentasi = (100 * $userBimbingan) / $userTotal;
         }
 
-        return view('admin.dashboard', compact('presentasi','totalMahasiswa','totalDosen'));
+        return view('admin.dashboard', compact('presentasi', 'totalMahasiswa', 'totalDosen', 'chartBimbingan'));
     }
 }
