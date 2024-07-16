@@ -16,17 +16,12 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-            <form action="{{ route('admin.bimbingan-akademik.index') }}" method="GET">
+            <form action="{{ route('admin.data-mahasiswa.index') }}" method="GET">
                 <div class="form-group mb-3 row col-12">
-                    <label class="col-form-label text-dark col-lg-3" for="nama_dosen_pa" style="font-weight: 500">Nama Dosen
-                        PA</label>
+                    <label class="col-form-label text-dark col-lg-3" for="angkatan" style="font-weight: 500">Angkatan</label>
                     <div class="col-lg-6 input-group">
-                        <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" {{ Auth::user()->role == 'dosen' ? 'disabled':'' }}>
+                        <select id="angkatan" name="angkatan" class="form-control">
                             <option value="" selected>- Semua -</option>
-                            @foreach ($dosen as $item)
-                                <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>
-                                    {{ $item->nama }}</option>
-                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -44,14 +39,34 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group mb-3 text-right">
-                    <button class="btn text-white btn-sm mb-1" type="submit" style="background: #0CB7C2">
-                        Cari <i class="fas fa-fw fa-search text-white"></i>
-                    </button>
-                    @if ($selected_dosen)
-                        <br>
-                        <a href="{{ route('admin.bimbingan-akademik.index') }}" class="btn btn-sm btn-danger">Reset</a>
-                    @endif
+                <div class="form-group mb-3 row col-12">
+                    <label class="col-form-label text-dark col-lg-3" for="semester"
+                        style="font-weight: 500">Semester</label>
+                    <div class="col-lg-6 input-group">
+                        <select id="semester" name="semester" class="form-control">
+                            <option value="" selected>- Semua -</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group mb-3 row col-12">
+                    <label class="col-form-label text-dark col-lg-3" for="jumlah_bimbingan_akademik"
+                        style="font-weight: 500">Bimbingan Akademik</label>
+                    <div class="col-lg-6 input-group">
+                        <select id="jumlah_bimbingan_akademik" name="jumlah_bimbingan_akademik" class="form-control">
+                            <option value="" selected>- Semua -</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group mb-3 d-flex justify-content-end text-left">
+                    <div class="col-lg-9">
+                        <button class="btn text-white btn-sm mb-1" type="submit" style="background: #43D100">
+                            Filter Data
+                        </button>
+                        @if ($selected_status)
+                            <br>
+                            <a href="{{ route('admin.data-mahasiswa.index') }}" class="btn btn-sm btn-danger">Reset</a>
+                        @endif
+                    </div>
                 </div>
             </form>
             <div class="table-responsive">
@@ -61,135 +76,38 @@
                             <th class="text-center">No.</th>
                             <th>Nama Mahasiswa</th>
                             <th>NIM</th>
-                            <th>Nama Dosen PA</th>
-                            <th>Topik</th>
-                            <th>Waktu & Tanggal</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Aksi</th>
+                            <th class="text-center">Angkatan</th>
+                            <th class="text-center">Semester</th>
+                            <th class="text-center">Validasi KRS</th>
                             <th class="text-center">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($bimbinganAkedmik as $item)
+                        @foreach ($dataMahasiswa as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>{{ $item->mahasiswa->nama }}</td>
                                 <td>{{ $item->mahasiswa->noreg }}</td>
-                                <td>{{ $item->mahasiswa->nama_dosen_pa }}</td>
-                                <td>{{ $item->topik }}</td>
-                                <td>{{ $item->format_tgl_konsultasi }}</td>
+                                <td class="text-center">{{ $item->mahasiswa->angkatan }}</td>
+                                <td class="text-center">{{ $item->semester }}</td>
                                 <td class="text-center">
-                                    @switch($item->status)
-                                        @case('menunggu')
-                                            <span class="badge badge-pill badge-warning">Menuggu</span>
-                                        @break
-
-                                        @case('disetujui')
-                                            <span class="badge badge-pill badge-success">Disetujui</span>
-                                        @break
-
-                                        @case('ditolak')
-                                            <span class="badge badge-pill badge-danger">Ditolak</span>
-                                        @break
-
-                                        @case('selesai')
-                                            <span class="badge badge-pill badge-primary">Selesai</span>
-                                        @break
-
-                                        @default
-                                            <span class="badge badge-pill badge-secondary">{{ $item->status }}</span>
-                                        @break
-                                    @endswitch
-                                </td>
-                                <td>
-                                    @if ($item->status == 'menunggu')
-                                        <div class="d-flex">
-                                            <a href="#" class="btn btn-success btn-sm btn-circle mr-1"
-                                                data-toggle="modal" data-target="#modalSetujui">
-                                                <i class="fas fa-fw fa-check"></i></a>
-                                            <a href="" class="btn btn-danger btn-sm btn-circle" data-toggle="modal"
-                                                data-target="#modalTolak">
-                                                <i class="fas fa-fw fa-times"></i></a>
-                                            <!-- Modal Setujui -->
-                                            <div class="modal fade" id="modalSetujui" tabindex="-1" role="dialog"
-                                                aria-labelledby="modelTitleId" aria-hidden="true">
-                                                <div class="modal-dialog modal-sm" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-success">
-                                                            <h5 class="modal-title text-white">Setujui Bimbingan</h5>
-                                                            <button type="button" class="close text-white"
-                                                                data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form action="{{ route('admin.bimbingan-akademik.setujui') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="text" class="d-none" name="bimbingan_id"
-                                                                value="{{ $item->id }}">
-                                                            <div class="modal-body">
-                                                                Apakah anda yakin setujui bimbingan ini?
-                                                            </div>
-                                                            <div class="modal-footer d-flex justify-content-center">
-                                                                <button type="submit"
-                                                                    class="btn btn-success">Setujui</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- Modal Tolak --}}
-                                            <div class="modal fade" id="modalTolak" tabindex="-1" role="dialog"
-                                                aria-labelledby="modelTitleId" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-danger">
-                                                            <h5 class="modal-title text-white">Tolak Bimbingan</h5>
-                                                            <button type="button" class="close text-white"
-                                                                data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <form action="{{ route('admin.bimbingan-akademik.tolak') }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            <input type="text" class="d-none" name="bimbingan_id"
-                                                                value="{{ $item->id }}">
-                                                            <div class="modal-body">
-                                                                <div class="form-group">
-                                                                    <label class="text-dark">Keterangan Penolakan</label>
-                                                                    <textarea class="form-control" name="keterangan" cols="30" rows="5" required></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer d-flex justify-content-center">
-                                                                <button type="submit"
-                                                                    class="btn btn-danger">Kirim</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    @if ($item->status == 'disetujui')
+                                        <span class="badge badge-pill badge-success">Sudah</span>
+                                    @else
+                                        <span class="badge badge-pill badge-danger">Belum</span>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    @if ($item->status == 'ditolak')
-                                        {{ $item->keterangan }}
-                                    @else
-                                        <a href="{{ route('admin.konsultasi-bimbingan-akademik.index', ['bimbingan_id' => $item->id]) }}"
-                                            class="btn btn-secondary btn-sm text-wrap p-1">
-                                            <small>Lihat Pesan</small>
-                                        </a>
+                                <td>
+                                    @if (!empty($item->jumlah_bimbingan))
+                                        {{ $item->jumlah_bimbingan }} x bimbingan
+                                        @else
+                                        belum bimbingan
                                     @endif
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <!--Table-->
-                {{-- <div class="d-flex justify-content-center">
-                    {{ $bimbinganAkedmik->links() }}
-                </div> --}}
             </div>
         </div>
     </div>

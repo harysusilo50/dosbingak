@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Pages\BimbinganAkademik\BimbinganAkademikController;
 use App\Http\Controllers\Admin\BimbinganAkademik\BimbinganAkademikController as AdminBimbinganAkademikController;
 use App\Http\Controllers\Admin\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController as AdminKonsultasiBimbinganAkademikController;
+use App\Http\Controllers\Admin\User\DataDosenController;
+use App\Http\Controllers\Admin\User\DataMahasiswaController;
 use App\Http\Controllers\Admin\ValidasiKrs\ValidasiKrsController as AdminValidasiKrsController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\Inventory\InventoryController;
@@ -74,4 +76,7 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/persetujuan-krs', [AdminValidasiKrsController::class, 'index'])->name('admin.validasi-krs.index');
     Route::post('/persetujuan-krs/setujui', [AdminValidasiKrsController::class, 'setujui_krs_bimbingan'])->name('admin.validasi-krs.setujui');
     Route::post('/persetujuan-krs/tolak', [AdminValidasiKrsController::class, 'tolak_krs_bimbingan'])->name('admin.validasi-krs.tolak');
+
+    Route::get('/data-mahasiswa', [DataMahasiswaController::class, 'index'])->name('admin.data-mahasiswa.index');
+    Route::get('/data-dosen', [DataDosenController::class, 'index'])->name('admin.data-dosen.index');
 });

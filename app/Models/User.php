@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $append = ['format_nama_chat'];
+    protected $append = ['format_nama_chat', 'jumlah_mahasiswa_bimbingan'];
 
     /**
      * The attributes that are mass assignable.
@@ -70,5 +70,10 @@ class User extends Authenticatable
             return substr($this->attributes['nama'], 0, 8) . '...';
         }
         return $this->attributes['nama'];
+    }
+
+    public function getJumlahMahasiswaBimbinganAttribute()
+    {
+        return User::where('nama_dosen_pa', $this->attributes['nama'])->count();
     }
 }

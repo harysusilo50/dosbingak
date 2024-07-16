@@ -33,14 +33,14 @@
         <div class="sidebar-heading">
             Data
         </div>
-        <li class="nav-item {{ Request::is('admin/jadwal-bimbingan') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('jadwal-bimbingan.index') }}">
+        <li class="nav-item {{ Request::is('admin/data-mahasiswa') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.data-mahasiswa.index') }}">
                 <i class="fas fa-fw fa-chart-bar"></i>
                 <span>Data Mahasiswa</span></a>
         </li>
         @if (Auth::user()->role == 'admin')
-            <li class="nav-item {{ Request::is('admin/jadwal-bimbingan') ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('jadwal-bimbingan.index') }}">
+            <li class="nav-item {{ Request::is('admin/data-dosen') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.data-dosen.index') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Data Dosen</span></a>
             </li>
