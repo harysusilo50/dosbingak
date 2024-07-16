@@ -23,7 +23,7 @@ class DashboardController extends Controller
             if (empty($userTotal)) {
                 $presentasi = 0;
             } else {
-                $presentasi = (100 * $userBimbingan) / $userTotal;
+                $presentasi = round((100 * $userBimbingan) / $userTotal,2);
             }
 
             return view('admin.dashboard_dosen', compact('presentasi'));
@@ -42,7 +42,7 @@ class DashboardController extends Controller
             if (empty($bimbinganDosenTotal)) {
                 $presentasi = 0;
             } else {
-                $presentasi = (100 * $bimbinganSelesai) / $bimbinganDosenTotal;
+                $presentasi = round((100 * $bimbinganSelesai) / $bimbinganDosenTotal,2);
             }
 
             $chartBimbingan[$key] = [
@@ -57,7 +57,7 @@ class DashboardController extends Controller
         if (empty($userTotal)) {
             $presentasi = 0;
         } else {
-            $presentasi = (100 * $userBimbingan) / $userTotal;
+            $presentasi = round((100 * $userBimbingan) / $userTotal,2);
         }
 
         return view('admin.dashboard', compact('presentasi', 'totalMahasiswa', 'totalDosen', 'chartBimbingan'));
