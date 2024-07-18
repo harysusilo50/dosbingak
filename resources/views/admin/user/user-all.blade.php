@@ -10,28 +10,62 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
-         
-            {{-- <div class="table-responsive">
+
+            <div class="table-responsive">
                 <!--Table-->
-                <table class="table table-striped" id="dataTable" cellspacing="0">
+                <table class="table table-striped table-bordered" id="dataTable" cellspacing="0">
 
                     <!--Table head-->
                     <thead>
                         <tr>
-                            <th>No.</th>
-                            <th>NIM</th>
+                            <th class="text-center">No.</th>
                             <th>Nama</th>
+                            <th class="text-center">Role</th>
+                            <th>Noreg</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th class="text-center">Status Akun</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @foreach ($user as $item)
+                            <tr>
+                                <td class="text-center" style="width: 3%">{{ $loop->iteration }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td class="text-center">
+                                    @switch($item->role)
+                                        @case('admin')
+                                            <span class="badge badge-pill badge-primary">Administrator</span>
+                                        @break
 
+                                        @case('dosen')
+                                            <span class="badge badge-pill badge-success">Dosen</span>
+                                        @break
+
+                                        @case('user')
+                                            <span class="badge badge-pill badge-info">Mahasiswa</span>
+                                        @break
+
+                                        @default
+                                            <span class="badge badge-pill badge-info">{{ $item->role }}</span>
+                                    @endswitch
+                                </td>
+                                <td>{{ $item->noreg }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td class="text-center">
+                                    @if (!empty($item->email_verified_at))
+                                        <span class="badge badge-pill badge-primary">Aktif</span>
+                                    @else
+                                        <span class="badge badge-pill badge-warning">Menunggu verifikasi</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
                 <!--Table-->
-            </div> --}}
+            </div>
         </div>
     </div>
 
 @endsection
-

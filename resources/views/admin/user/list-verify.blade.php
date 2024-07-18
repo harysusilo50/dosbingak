@@ -4,7 +4,8 @@
 
     <div class="card mb-4"style="border-radius: 10px">
         <!-- Card Header - Dropdown -->
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between"style="border-radius: 10px 10px 0px 0px">
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between"style="border-radius: 10px 10px 0px 0px">
             <h6 class="m-0 font-weight-bold text-muted"><i class="fas fa-user mr-1"></i> List User Verification</h6>
         </div>
         <!-- Card Body -->
@@ -29,8 +30,8 @@
                         @foreach ($data as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td>{{ $item->user->nim }}</td>
-                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->noreg }}</td>
+                                <td>{{ $item->user->nama }}</td>
                                 <td>{{ $item->user->email }}</td>
                                 <td class="text-center">
                                     @if ($item->status == 'pending')
@@ -67,7 +68,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <!-- Button Terima Verifikasi -->
                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
                                         data-target="#modal_accept_{{ $item->id }}">
