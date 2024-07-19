@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $append = ['format_nama_chat', 'jumlah_mahasiswa_bimbingan'];
+    protected $append = ['format_nama_chat', 'jumlah_mahasiswa_bimbingan', 'validasi_krs_semester'];
 
     /**
      * The attributes that are mass assignable.
@@ -64,6 +64,16 @@ class User extends Authenticatable
         return $this->hasOne(VerificationUser::class);
     }
 
+    public function validasi_krs()
+    {
+        return $this->hasMany(ValidasiKrs::class, 'mahasiswa_id', 'id');
+    }
+
+    public function bimbingan_akademik()
+    {
+        return $this->hasMany(BimbinganAkademik::class, 'mahasiswa_id', 'id');
+    }
+
     public function getFormatNamaChatAttribute()
     {
         if (strlen($this->attributes['nama']) > 8) {
@@ -75,5 +85,20 @@ class User extends Authenticatable
     public function getJumlahMahasiswaBimbinganAttribute()
     {
         return User::where('nama_dosen_pa', $this->attributes['nama'])->count();
+    }
+
+    public function getValidasiKrsSemesterAttribute()
+    {
+        $semesterNow = new CekSemester();
+        $semesterNow->semester();
+
+        return ValidasiKrs::where(['mahasiswa_id' => $this->attributes['id'], 'semester' => $semesterNow->semester, 'status' => 'disetujui'])->count();
+    }
+
+    public function getJumlahBimbinganAttribute()
+    {
+        $semesterNow = new CekSemester();
+        $semesterNow->semester();
+        return BimbinganAkademik::where('mahasiswa_id', $this->attributes['id'])->where('status', 'selesai')->where('semester', $semesterNow->semester)->count();
     }
 }
