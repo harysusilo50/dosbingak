@@ -8,6 +8,7 @@ use App\Models\VerificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -41,25 +42,36 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        //
+        try {
+
+            DB::beginTransaction();
+            $user = User::findOrFail($id);
+
+            if ($request->password) {
+                $user->password = Hash::make($request->password);
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function destroy($id)
     {
-        $data = User::findOrFail($id);
-        $data->delete();
-        if ($data) {
-            $response = array(
-                'status' => 'success',
-                'message' => 'Berhasil Menghapus Data Tugas'
-            );
-        } else {
-            $response = array(
-                'status' => 'error',
-                'message' => 'Gagal Menghapus Data Tugas'
-            );
+        try {
+            DB::beginTransaction();
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            DB::commit();
+            Alert::success('Success', 'User berhasil dihapus!');
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Failed', $th->getMessage());
+            return redirect()->back();
         }
-        return response()->json($response);
     }
 
     public function list_verify()
@@ -70,7 +82,7 @@ class UserController extends Controller
 
     public function all()
     {
-        $user = User::all();
+        $user = User::paginate()->withQueryString();
         return view('admin.user.user-all', compact('user'));
     }
 
