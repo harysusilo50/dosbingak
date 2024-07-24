@@ -21,7 +21,5 @@ class ValidasiKrs extends Model
         return $this->belongsTo(User::class, 'mahasiswa_id','id');
     }
 
-    public function getJumlahBimbinganAttribute(){
-        return BimbinganAkademik::where('mahasiswa_id',$this->attributes['mahasiswa_id'])->where('status','selesai')->where('semester',$this->attributes['semester'])->count();
-    }
+
 }

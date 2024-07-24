@@ -22,29 +22,20 @@
                     <div class="col-lg-6 input-group">
                         <select id="angkatan" name="angkatan" class="form-control">
                             <option value="" selected>- Semua -</option>
+                            @foreach ($angkatan as $item)
+                                <option value="{{ $item }}" {{ $item == $selected_angkatan ? 'selected':'' }}>{{ $item }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="form-group mb-3 row col-12">
-                    <label class="col-form-label text-dark col-lg-3" for="status" style="font-weight: 500">Status</label>
+                    <label class="col-form-label text-dark col-lg-3" for="persetujuan_krs" style="font-weight: 500">Persetujuan KRS</label>
                     <div class="col-lg-6 input-group">
-                        <select id="status" name="status" class="form-control">
-                            <option value="" {{ $selected_status == '' ? 'selected' : '' }}>- Semua -</option>
-                            <option value="menunggu" {{ $selected_status == 'menunggu' ? 'selected' : '' }}>Menunggu
+                        <select id="persetujuan_krs" name="persetujuan_krs" class="form-control">
+                            <option value="" {{ $selected_persetujuan_krs == '' ? 'selected' : '' }}>- Semua -</option>
+                            <option value="belum" {{ $selected_persetujuan_krs == 'belum' ? 'selected' : '' }}>Belum
                             </option>
-                            <option value="disetujui" {{ $selected_status == 'disetujui' ? 'selected' : '' }}>Disetujui
-                            </option>
-                            <option value="ditolak" {{ $selected_status == 'ditolak' ? 'selected' : '' }}>Ditolak </option>
-                            <option value="selesai" {{ $selected_status == 'selesai' ? 'selected' : '' }}>Selesai </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group mb-3 row col-12">
-                    <label class="col-form-label text-dark col-lg-3" for="semester"
-                        style="font-weight: 500">Semester</label>
-                    <div class="col-lg-6 input-group">
-                        <select id="semester" name="semester" class="form-control">
-                            <option value="" selected>- Semua -</option>
+                            <option value="selesai" {{ $selected_persetujuan_krs == 'selesai' ? 'selected' : '' }}>Sudah </option>
                         </select>
                     </div>
                 </div>
@@ -54,6 +45,9 @@
                     <div class="col-lg-6 input-group">
                         <select id="jumlah_bimbingan_akademik" name="jumlah_bimbingan_akademik" class="form-control">
                             <option value="" selected>- Semua -</option>
+                            <option value="belum" >Belum Pernah Bimbingan</option>
+                            <option value="pernah" >1x Bimbingan</option>
+                            <option value="lebih" >Lebih dari 1x Bimbingan</option>
                         </select>
                     </div>
                 </div>
@@ -62,7 +56,7 @@
                         <button class="btn text-white btn-sm mb-1" type="submit" style="background: #43D100">
                             Filter Data
                         </button>
-                        @if ($selected_status)
+                        @if ($selected_angkatan || $selected_persetujuan_krs)
                             <br>
                             <a href="{{ route('admin.data-mahasiswa.index') }}" class="btn btn-sm btn-danger">Reset</a>
                         @endif
@@ -77,8 +71,7 @@
                             <th>Nama Mahasiswa</th>
                             <th>NIM</th>
                             <th class="text-center">Angkatan</th>
-                            <th class="text-center">Semester</th>
-                            <th class="text-center">Validasi KRS</th>
+                            <th class="text-center">Validasi KRS <br> Semester Ini</th>
                             <th class="text-center">Keterangan</th>
                         </tr>
                     </thead>
@@ -86,12 +79,11 @@
                         @foreach ($dataMahasiswa as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                <td>{{ $item->mahasiswa->nama }}</td>
-                                <td>{{ $item->mahasiswa->noreg }}</td>
-                                <td class="text-center">{{ $item->mahasiswa->angkatan }}</td>
-                                <td class="text-center">{{ $item->semester }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->noreg }}</td>
+                                <td class="text-center">{{ $item->angkatan }}</td>
                                 <td class="text-center">
-                                    @if ($item->status == 'disetujui')
+                                    @if ($item->validasi_krs_semester > 0)
                                         <span class="badge badge-pill badge-success">Sudah</span>
                                     @else
                                         <span class="badge badge-pill badge-danger">Belum</span>
@@ -100,7 +92,7 @@
                                 <td>
                                     @if (!empty($item->jumlah_bimbingan))
                                         {{ $item->jumlah_bimbingan }} x bimbingan
-                                        @else
+                                    @else
                                         belum bimbingan
                                     @endif
                                 </td>
