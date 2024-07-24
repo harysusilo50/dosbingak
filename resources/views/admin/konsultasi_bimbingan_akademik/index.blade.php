@@ -482,7 +482,8 @@
                             @if ($konsultasi->mahasiswa->id == $chat->user_id)
                                 <li class="chat-left konsul" id="konsul_{{ $chat->id }}">
                                     <div class="chat-avatar">
-                                        <img src="{{ asset('img/user.png') }}">
+                                        <img
+                                            src="{{ $konsultasi->mahasiswa->profile_pic ? asset($konsultasi->mahasiswa->profile_pic) : asset('img/user.png') }}">
                                         <div class="chat-name text-white text-wrap text-left">
                                             {{ $konsultasi->mahasiswa->format_nama_chat }}</div>
                                     </div>
@@ -507,7 +508,8 @@
                                     <div class="chat-text-dosen">{{ $chat->pesan }}
                                     </div>
                                     <div class="chat-avatar">
-                                        <img src="{{ asset('img/dosen.png') }}">
+                                        <img
+                                            src="{{ $konsultasi->dosen->profile_pic ? asset($konsultasi->dosen->profile_pic) : asset('img/dosen.png') }}">
                                         <div class="chat-name text-white text-wrap text-right">
                                             {{ $konsultasi->dosen->format_nama_chat }}</div>
                                     </div>
@@ -559,12 +561,17 @@
                                 scrollTop: $('#chat-container')[0].scrollHeight
                             }, 1000);
                             var image = "";
-                            if (data.role == 'dosen') {
-                                image = "{{ asset('img/dosen.png') }}"
-                            } else if (data.role == 'admin') {
-                                image = "{{ asset('img/admin.png') }}"
+                            if (data.profile_pic) {
+                                var tempProfile = data.profile_pic
+                                image = "{{ url('/') }}" + "public/" + tempProfile
                             } else {
-                                image = "{{ asset('img/user.png') }}"
+                                if (data.role == 'dosen') {
+                                    image = "{{ asset('img/dosen.png') }}"
+                                } else if (data.role == 'admin') {
+                                    image = "{{ asset('img/admin.png') }}"
+                                } else {
+                                    image = "{{ asset('img/user.png') }}"
+                                }
                             }
                             var leftRight = ""
                             if (data.role != "user") {
@@ -609,7 +616,7 @@
             }
 
             setInterval(getUrl, 5000);
-            
+
         });
     </script>
 @endsection

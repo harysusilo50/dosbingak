@@ -178,11 +178,15 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <img class="img-profile rounded-circle"
                         src="
-                    @if (Auth::user()->role == 'admin') {{ asset('img/admin.png') }}
-                    @elseif(Auth::user()->role == 'dosen')
-                        {{ asset('img/dosen.png') }}
-                         @else
-                         {{ asset('img/user.png') }} @endif">
+                        @if (!empty(Auth::user()->profile_pic)) {{ asset(Auth::user()->profile_pic) }}
+                             @else
+                             @if (Auth::user()->role == 'admin') {{ asset('img/admin.png') }}
+                             @elseif(Auth::user()->role == 'dosen')
+                                 {{ asset('img/dosen.png') }}
+                                  @else
+                                  {{ asset('img/user.png') }} @endif
+                        @endif
+                          ">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
