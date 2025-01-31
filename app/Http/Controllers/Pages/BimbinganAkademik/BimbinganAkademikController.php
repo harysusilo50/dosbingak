@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\BimbinganAkademik;
 use App\Http\Controllers\Controller;
 use App\Models\BimbinganAkademik;
 use App\Models\CekSemester;
+use App\Models\JadwalBimbingan;
 use App\Models\KonsultasiBimbinganAkademik;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,8 +27,9 @@ class BimbinganAkademikController extends Controller
     {
         $semesterNow = $this->cekSemester();
         $user = User::findOrFail(Auth::id());
-
-        return view('pages.bimbingan_akademik.create', compact('semesterNow', 'user'));
+        $dosen_id = User::where(['nama' => $user->nama_dosen_pa, 'role' => 'dosen'])->first() ?? '';
+        $tanggal_konsultasi = JadwalBimbingan::where('dosen_id', $dosen_id->id)->get();
+        return view('pages.bimbingan_akademik.create', compact('semesterNow', 'user', 'tanggal_konsultasi'));
     }
 
     public function store(Request $request)

@@ -9,7 +9,8 @@
                     <label class="col-form-label text-dark col-lg-3" for="nama_dosen_pa" style="font-weight: 500">Nama Dosen
                         PA</label>
                     <div class=" col-lg-6 input-group">
-                        <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" required  {{ Auth::user()->role == 'dosen' ? 'disabled':'' }}>
+                        <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" required
+                            {{ Auth::user()->role == 'dosen' ? 'disabled' : '' }}>
                             <option value="" selected>- Pilih Dosen Pembimbing -</option>
                             @foreach ($dosen as $item)
                                 <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>
@@ -24,11 +25,13 @@
                     </div>
                 </div>
             </form>
-            <div class="form-group text-lg-right">
-                <a href="{{ route('jadwal-bimbingan.create', ['id_dosen' => $selected_dosen]) }}"
-                    class="btn text-white btn-sm" style="background: #0CB7C2">
-                    <i class="fas fa-pencil-alt"></i> Edit</a>
-            </div>
+            @if (Auth::user()->role != 'user')
+                <div class="form-group text-lg-right">
+                    <a href="{{ route('jadwal-bimbingan.create', ['id_dosen' => $selected_dosen]) }}"
+                        class="btn text-white btn-sm" style="background: #0CB7C2">
+                        <i class="fas fa-pencil-alt"></i> Edit</a>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -51,7 +54,7 @@
         var jadwal = '{!! json_encode($result) !!}';
         const jsonJadwal = JSON.parse(jadwal);
         console.log(jsonJadwal);
-        
+
         document.addEventListener("DOMContentLoaded", function() {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -80,8 +83,7 @@
                     omitCommas: false
                 },
                 weekends: false,
-                events: jsonJadwal
-                ,
+                events: jsonJadwal,
             });
             calendar.render();
         });

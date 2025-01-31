@@ -41,6 +41,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
         Route::post('/profile/edit', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('/update-user/{id}', [UserController::class, 'update_user'])->name('user.update_user');
 
         Route::get('/konsultasi-bimbingan-akademik', [KonsultasiBimbinganAkademikController::class, 'index'])->name('konsultasi-bimbingan-akademik.index');
         Route::post('/konsultasi-bimbingan-akademik/send-message', [KonsultasiBimbinganAkademikController::class, 'store'])->name('konsultasi-bimbingan-akademik.store');

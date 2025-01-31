@@ -14,7 +14,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         return view('admin.user.index');
@@ -22,28 +21,65 @@ class UserController extends Controller
 
     public function create()
     {
-        //
+        $user = User::where('role', 'dosen')->get('nama');
+        return view('admin.user.create', compact('user'));
     }
 
     public function store(Request $request)
     {
-        //
+        try {
+            User::create([
+                'nama' => $request->nama,
+                'email' => $request->email,
+                'noreg' => $request->noreg,
+                'angkatan' => $request->angkatan,
+                'nama_dosen_pa' => $request->nama_dosen_pa,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'email_verified_at' => now(),
+            ]);
+            Alert::success('Success', 'Berhasil menambah pengguna!');
+            return redirect()->route('user.all');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 
-    public function show($id)
-    {
-        //
-    }
+    public function show($id) {}
 
     public function edit($id)
     {
-        //
+        $data = User::findOrFail($id);
+        $user = User::where('role', 'dosen')->get('nama');
+        return view('admin.user.edit', compact('user', 'data'));
+    }
+
+    public function update_user(Request $request, $id)
+    {
+        try {
+            $data = User::findOrFail($id);
+            $data->nama = $request->nama;
+            $data->email = $request->email;
+            $data->noreg = $request->noreg;
+            $data->angkatan = $request->angkatan;
+            $data->nama_dosen_pa = $request->nama_dosen_pa;
+            $data->password = Hash::make($request->password);
+            $data->email_verified_at = now();
+            $data->save();
+            Alert::success('Success', 'Berhasil mengubah data pengguna!');
+            return redirect()->route('user.all');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Alert::error('Failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function update(Request $request, $id)
     {
         try {
-
             DB::beginTransaction();
             $user = User::findOrFail($id);
 
@@ -76,7 +112,9 @@ class UserController extends Controller
 
     public function list_verify()
     {
-        $data = VerificationUser::whereIn('status', ['pending', 'reject'])->with('user')->paginate(10);
+        $data = VerificationUser::whereIn('status', ['pending', 'reject'])
+            ->with('user')
+            ->paginate(10);
         return view('admin.user.list-verify', compact('data'));
     }
 

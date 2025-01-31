@@ -16,13 +16,18 @@ class JadwalBimbinganController extends Controller
     {
         if (Auth::user()->role == 'dosen') {
             $selected_dosen = Auth::id();
+        } elseif (Auth::user()->role = 'user') {
+            $qDosen = User::where(['role' => 'dosen', 'nama' => Auth::user()->nama_dosen_pa])->first() ?? '';
+            $selected_dosen = $qDosen ? $qDosen->id : '';
         } else {
             $selected_dosen = $request->nama_dosen_pa ?? '';
         }
         $dosen = User::where('role', 'dosen')->get();
-        $jadwal = JadwalBimbingan::with('dosen')->when($selected_dosen, function ($query) use ($selected_dosen) {
-            return $query->where('dosen_id', $selected_dosen);
-        })->get();
+        $jadwal = JadwalBimbingan::with('dosen')
+            ->when($selected_dosen, function ($query) use ($selected_dosen) {
+                return $query->where('dosen_id', $selected_dosen);
+            })
+            ->get();
 
         $result = [];
         foreach ($jadwal as $key => $value) {
@@ -30,7 +35,7 @@ class JadwalBimbinganController extends Controller
                 'title' => $value->dosen->nama,
                 'start' => $value->tanggal . 'T' . $value->start_at,
                 'end' => $value->tanggal . 'T' . $value->end_at,
-                'allDay' => false
+                'allDay' => false,
             ];
             $result[] = $temp;
         }
@@ -47,9 +52,13 @@ class JadwalBimbinganController extends Controller
         }
         $dosen = User::where('role', 'dosen')->get();
 
-        $jadwal = JadwalBimbingan::with('dosen')->when($selected_dosen, function ($query) use ($selected_dosen) {
-            return $query->where('dosen_id', $selected_dosen);
-        })->latest()->paginate(30)->withQueryString();
+        $jadwal = JadwalBimbingan::with('dosen')
+            ->when($selected_dosen, function ($query) use ($selected_dosen) {
+                return $query->where('dosen_id', $selected_dosen);
+            })
+            ->latest()
+            ->paginate(30)
+            ->withQueryString();
         return view('admin.jadwal_bimbingan.create', compact('jadwal', 'dosen', 'selected_dosen'));
     }
 
@@ -58,10 +67,10 @@ class JadwalBimbinganController extends Controller
         DB::beginTransaction();
         try {
             $data = new JadwalBimbingan();
-            $data->dosen_id =  $request->nama_dosen_pa;
-            $data->tanggal =  $request->tanggal;
-            $data->start_at =  $request->start_at;
-            $data->end_at =  $request->end_at;
+            $data->dosen_id = $request->nama_dosen_pa;
+            $data->tanggal = $request->tanggal;
+            $data->start_at = $request->start_at;
+            $data->end_at = $request->end_at;
             $data->save();
             DB::commit();
             Alert::success('Success');

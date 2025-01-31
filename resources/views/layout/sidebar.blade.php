@@ -71,6 +71,11 @@
                 <i class="fas fa-fw fa-user-circle"></i>
                 <span>Profile</span></a>
         </li>
+        <li class="nav-item {{ Request::is('admin/jadwal-bimbingan') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('jadwal-bimbingan.index') }}">
+                <i class="fas fa-fw fa-calendar-alt"></i>
+                <span>Jadwal Konsultasi</span></a>
+        </li>
         <li class="nav-item {{ Request::is('bimbingan-akademik') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('bimbingan-akademik.index') }}">
                 <i class="fas fa-fw fa-chalkboard-teacher"></i>

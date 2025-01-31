@@ -43,7 +43,12 @@
                             <label class="col-form-label text-dark col-lg-3" for="tgl_konsultasi" style="font-weight: 500">Tanggal
                                 Konsultasi <span class="text-red font-weight-bold">*</span></label>
                             <div class="col-lg-6 input-group">
-                                <input type="date" class="form-control" id="tgl_konsultasi" name="tgl_konsultasi" required>
+                                <select class="form-control" name="tgl_konsultasi" id="tgl_konsultasi" required>
+                                    <option value="">- Pilih tanggal konsultasi-</option>
+                                    @foreach ($tanggal_konsultasi as $item)
+                                        <option value="{{ $item->tanggal }}"> {{ $item->format_tanggal }} | {{ $item->format_start_at }} - {{ $item->format_end_at }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </li>

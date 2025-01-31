@@ -16,10 +16,10 @@
                         PA</label>
                     <div class=" col-lg-6 input-group">
                         <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" required
-                            {{ Auth::user()->role == 'dosen' ? 'readonly' : '' }}>
+                            {{ Auth::user()->role === 'dosen' ? 'readonly' : '' }}>
                             <option value="" selected>- Pilih Dosen Pembimbing -</option>
                             @foreach ($dosen as $item)
-                                <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : 'disabled' }}>
+                                <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>
                                     {{ $item->nama }}</option>
                             @endforeach
                         </select>
