@@ -44,14 +44,20 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group mb-3 text-right">
-                    <button class="btn text-white btn-sm mb-1" type="submit" style="background: #0CB7C2">
-                        Cari <i class="fas fa-fw fa-search text-white"></i>
-                    </button>
-                    @if ($selected_dosen)
-                        <br>
-                        <a href="{{ route('admin.validasi-krs.index') }}" class="btn btn-sm btn-danger">Reset</a>
-                    @endif
+                <div class="d-flex justify-content-between">
+                    <div class="form-group mb-3">
+                        <a href="{{ route('admin.validasi-krs.report') }}" target="_blank" class="btn btn-danger btn-sm">
+                            Cetak <i class="fa fa-download" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="form-group mb-3 text-right">
+                        <button class="btn text-white btn-sm mb-1" type="submit" style="background: #0CB7C2">
+                            Cari <i class="fas fa-fw fa-search text-white"></i>
+                        </button>
+                        @if ($selected_dosen)
+                            <br>
+                            <a href="{{ route('admin.validasi-krs.index') }}" class="btn btn-sm btn-danger">Reset</a>
+                        @endif
+                    </div>
                 </div>
             </form>
             <div class="table-responsive">
@@ -79,7 +85,7 @@
                                 <td class="text-center">
                                     @switch($item->status)
                                         @case('menunggu')
-                                            <span class="badge badge-pill badge-warning">Menuggu Persetujuan</span>
+                                            <span class="badge badge-pill badge-warning text-wrap">Menuggu Persetujuan</span>
                                         @break
 
                                         @case('disetujui')
@@ -97,78 +103,80 @@
                                 </td>
                                 <td>
                                     @if ($item->status == 'menunggu')
-                                    <div class="d-flex">
-                                        <a target="_blank" href="{{ asset($item->file_krs) }}" class="btn btn-secondary btn-sm mr-1">
-                                            <i class="fas fa-fw fa-eye"></i></a>
-                                        <a  href="{{ asset($item->file_krs) }}" class="btn btn-warning btn-sm mr-1" download="{{ 'KRS_'.$item->mahasiswa->noreg.'_'.$item->semester.'_'.$item->mahasiswa->angkatan.'_'.now().'.pdf'}}">
-                                            <i class="fas fa-fw fa-download"></i></a>
-                                        <a href="#" class="btn btn-success btn-sm mr-1"
-                                            data-toggle="modal" data-target="#modalSetujui">
-                                            <i class="fas fa-fw fa-check"></i></a>
-                                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modalTolak">
-                                            <i class="fas fa-fw fa-times"></i></a>
-                                        <!-- Modal Setujui -->
-                                        <div class="modal fade" id="modalSetujui" tabindex="-1" role="dialog"
-                                            aria-labelledby="modelTitleId" aria-hidden="true">
-                                            <div class="modal-dialog modal-sm" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header bg-success">
-                                                        <h5 class="modal-title text-white">Setujui Permohonan KRS</h5>
-                                                        <button type="button" class="close text-white"
-                                                            data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form action="{{ route('admin.validasi-krs.setujui') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <input type="text" class="d-none" name="validasiKrs_id"
-                                                            value="{{ $item->id }}">
-                                                        <div class="modal-body">
-                                                            Apakah anda yakin setujui permohonan KRS ini?
+                                        <div class="d-flex">
+                                            <a target="_blank" href="{{ asset($item->file_krs) }}"
+                                                class="btn btn-secondary btn-sm mr-1">
+                                                <i class="fas fa-fw fa-eye"></i></a>
+                                            <a href="{{ asset($item->file_krs) }}" class="btn btn-warning btn-sm mr-1"
+                                                download="{{ 'KRS_' . $item->mahasiswa->noreg . '_' . $item->semester . '_' . $item->mahasiswa->angkatan . '_' . now() . '.pdf' }}">
+                                                <i class="fas fa-fw fa-download"></i></a>
+                                            <a href="#" class="btn btn-success btn-sm mr-1" data-toggle="modal"
+                                                data-target="#modalSetujui">
+                                                <i class="fas fa-fw fa-check"></i></a>
+                                            <a href="" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modalTolak">
+                                                <i class="fas fa-fw fa-times"></i></a>
+                                            <!-- Modal Setujui -->
+                                            <div class="modal fade" id="modalSetujui" tabindex="-1" role="dialog"
+                                                aria-labelledby="modelTitleId" aria-hidden="true">
+                                                <div class="modal-dialog modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-success">
+                                                            <h5 class="modal-title text-white">Setujui Permohonan KRS</h5>
+                                                            <button type="button" class="close text-white"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
-                                                        <div class="modal-footer d-flex justify-content-center">
-                                                            <button type="submit"
-                                                                class="btn btn-success">Setujui</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {{-- Modal Tolak --}}
-                                        <div class="modal fade" id="modalTolak" tabindex="-1" role="dialog"
-                                            aria-labelledby="modelTitleId" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header bg-danger">
-                                                        <h5 class="modal-title text-white">Tolak Permohonan</h5>
-                                                        <button type="button" class="close text-white"
-                                                            data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form action="{{ route('admin.validasi-krs.tolak') }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        <input type="text" class="d-none" name="validasiKrs_id"
-                                                            value="{{ $item->id }}">
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label class="text-dark">Keterangan Penolakan</label>
-                                                                <textarea class="form-control" name="keterangan" cols="30" rows="5" required></textarea>
+                                                        <form action="{{ route('admin.validasi-krs.setujui') }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="text" class="d-none" name="validasiKrs_id"
+                                                                value="{{ $item->id }}">
+                                                            <div class="modal-body">
+                                                                Apakah anda yakin setujui permohonan KRS ini?
                                                             </div>
+                                                            <div class="modal-footer d-flex justify-content-center">
+                                                                <button type="submit"
+                                                                    class="btn btn-success">Setujui</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- Modal Tolak --}}
+                                            <div class="modal fade" id="modalTolak" tabindex="-1" role="dialog"
+                                                aria-labelledby="modelTitleId" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title text-white">Tolak Permohonan</h5>
+                                                            <button type="button" class="close text-white"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
                                                         </div>
-                                                        <div class="modal-footer d-flex justify-content-center">
-                                                            <button type="submit"
-                                                                class="btn btn-danger">Kirim</button>
-                                                        </div>
-                                                    </form>
+                                                        <form action="{{ route('admin.validasi-krs.tolak') }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="text" class="d-none" name="validasiKrs_id"
+                                                                value="{{ $item->id }}">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label class="text-dark">Keterangan Penolakan</label>
+                                                                    <textarea class="form-control" name="keterangan" cols="30" rows="5" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer d-flex justify-content-center">
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Kirim</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
+                                    @endif
                                 </td>
                                 <td>
                                     {{ $item->keterangan }}

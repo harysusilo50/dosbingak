@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::post('/bimbingan-akademik/setujui', [AdminBimbinganAkademikController::class, 'setujui_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.setujui');
     Route::post('/bimbingan-akademik/tolak', [AdminBimbinganAkademikController::class, 'tolak_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.tolak');
     Route::get('/bimbingan-akademik/selesaikan/{bimbingan_id}', [AdminBimbinganAkademikController::class, 'selesaikan_konsultasi_bimbingan'])->name('admin.bimbingan-akademik.selesai');
+    Route::get('/bimbingan-akademik/report', [AdminBimbinganAkademikController::class, 'report_pdf'])->name('bimbingan-akademik.report');
 
     Route::get('/konsultasi-bimbingan-akademik', [AdminKonsultasiBimbinganAkademikController::class, 'index'])->name('admin.konsultasi-bimbingan-akademik.index');
     Route::post('/konsultasi-bimbingan-akademik/send-message', [AdminKonsultasiBimbinganAkademikController::class, 'store'])->name('admin.konsultasi-bimbingan-akademik.store');
@@ -77,6 +78,7 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::get('/persetujuan-krs', [AdminValidasiKrsController::class, 'index'])->name('admin.validasi-krs.index');
     Route::post('/persetujuan-krs/setujui', [AdminValidasiKrsController::class, 'setujui_krs_bimbingan'])->name('admin.validasi-krs.setujui');
     Route::post('/persetujuan-krs/tolak', [AdminValidasiKrsController::class, 'tolak_krs_bimbingan'])->name('admin.validasi-krs.tolak');
+    Route::get('/persetujuan-krs/report', [AdminValidasiKrsController::class, 'report_pdf'])->name('admin.validasi-krs.report');
 
     Route::get('/data-mahasiswa', [DataMahasiswaController::class, 'index'])->name('admin.data-mahasiswa.index');
     Route::get('/data-dosen', [DataDosenController::class, 'index'])->name('admin.data-dosen.index');

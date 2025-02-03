@@ -7,6 +7,7 @@ use App\Models\BimbinganAkademik;
 use App\Models\CekSemester;
 use App\Models\KonsultasiBimbinganAkademik;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class BimbinganAkademikController extends Controller
         $selected_status = $request->status ?? '';
         $dosen = User::where('role', 'dosen')->get();
 
-        $bimbinganAkedmik = BimbinganAkademik::with('dosen','mahasiswa')
+        $bimbinganAkedmik = BimbinganAkademik::with('dosen', 'mahasiswa')
             ->when($selected_dosen, function ($query) use ($selected_dosen) {
                 return $query->where('dosen_id', $selected_dosen);
             })
@@ -34,7 +35,6 @@ class BimbinganAkademikController extends Controller
                 return $query->where('status', $selected_status);
             })
             ->get();
-
 
         return view('admin.bimbingan_akademik.index', compact('semesterNow', 'bimbinganAkedmik', 'selected_dosen', 'selected_status', 'dosen'));
     }
@@ -83,16 +83,40 @@ class BimbinganAkademikController extends Controller
             $data = BimbinganAkademik::findOrFail($bimbingan_id);
             $data->status = 'selesai';
             $data->save();
-            
+
             DB::commit();
             Alert::success('Success', 'Konsultasi Bimbingan Akademik Berhasil diselesaikan');
             return redirect()->route('admin.bimbingan-akademik.index');
-
         } catch (\Throwable $th) {
             DB::rollBack();
             Alert::error('Failed', $th->getMessage());
             return redirect()->back();
         }
+    }
+
+    public function report_pdf(Request $request)
+    {
+        $semesterNow = $this->cekSemester();
+        if (Auth::user()->role == 'dosen') {
+            $selected_dosen = Auth::id();
+        } else {
+            $selected_dosen = $request->nama_dosen_pa ?? '';
+        }
+
+        $selected_status = $request->status ?? '';
+        $dosen = User::where('role', 'dosen')->get();
+
+        $bimbinganAkedmik = BimbinganAkademik::with('dosen', 'mahasiswa')
+            ->when($selected_dosen, function ($query) use ($selected_dosen) {
+                return $query->where('dosen_id', $selected_dosen);
+            })
+            ->when($selected_status, function ($query) use ($selected_status) {
+                return $query->where('status', $selected_status);
+            })
+            ->get();
+            
+            $pdf = Pdf::loadview('admin.bimbingan_akademik.report', ['bimbinganAkedmik' => $bimbinganAkedmik, 'selected_dosen' => $selected_dosen])->setPaper('a4', 'potrait');
+            return $pdf->stream('bimbingan-akademik-report' . now() . '.pdf');
     }
 
     private function cekSemester()
