@@ -46,7 +46,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="form-group mb-3">
-                        <a href="{{ route('admin.validasi-krs.report') }}" target="_blank" class="btn btn-danger btn-sm">
+                        <a href="{{ route('admin.validasi-krs.report',['selected_dosen'=>$selected_dosen]) }}" target="_blank" class="btn btn-danger btn-sm">
                             Cetak <i class="fa fa-download" aria-hidden="true"></i></a>
                     </div>
                     <div class="form-group mb-3 text-right">

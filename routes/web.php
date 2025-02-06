@@ -11,14 +11,10 @@ use App\Http\Controllers\Admin\User\DataDosenController;
 use App\Http\Controllers\Admin\User\DataMahasiswaController;
 use App\Http\Controllers\Admin\ValidasiKrs\ValidasiKrsController as AdminValidasiKrsController;
 use App\Http\Controllers\Pages\HomeController;
-use App\Http\Controllers\Pages\Inventory\InventoryController;
-use App\Http\Controllers\Pages\Inventory\WeeklyBreakageController;
 use App\Http\Controllers\Pages\KonsultasiBimbinganAkademik\KonsultasiBimbinganAkademikController;
 use App\Http\Controllers\Pages\Profile\ProfileController;
 use App\Http\Controllers\Pages\User\VerifyController;
 use App\Http\Controllers\Pages\ValidasiKrs\ValidasiKrsController;
-use App\Models\HighTempMachine;
-use App\Models\ValidasiKrs;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -79,7 +75,8 @@ Route::group(['middleware' => ['auth', 'check.admin'], 'prefix' => 'admin'], fun
     Route::post('/persetujuan-krs/setujui', [AdminValidasiKrsController::class, 'setujui_krs_bimbingan'])->name('admin.validasi-krs.setujui');
     Route::post('/persetujuan-krs/tolak', [AdminValidasiKrsController::class, 'tolak_krs_bimbingan'])->name('admin.validasi-krs.tolak');
     Route::get('/persetujuan-krs/report', [AdminValidasiKrsController::class, 'report_pdf'])->name('admin.validasi-krs.report');
-
+    
     Route::get('/data-mahasiswa', [DataMahasiswaController::class, 'index'])->name('admin.data-mahasiswa.index');
+    Route::get('/data-mahasiswa/report', [DataMahasiswaController::class, 'report_pdf'])->name('admin.data-mahasiswa.report');
     Route::get('/data-dosen', [DataDosenController::class, 'index'])->name('admin.data-dosen.index');
 });

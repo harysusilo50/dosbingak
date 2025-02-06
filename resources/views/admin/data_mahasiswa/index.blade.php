@@ -17,6 +17,36 @@
         </div>
         <!-- Card Body -->
         <div class="card-body">
+            <form action="{{ route('admin.data-mahasiswa.index') }}" method="GET">
+            <div class="form-group mb-3 row col-12">
+                <label class="col-form-label text-dark col-lg-3" for="nama_dosen_pa" style="font-weight: 500">Nama Dosen
+                    PA</label>
+                <div class="col-lg-6 input-group">
+                    <select id="nama_dosen_pa" name="nama_dosen_pa" class="form-control" {{ Auth::user()->role == 'dosen' ? 'disabled':'' }}>
+                        <option value="" selected>- Semua -</option>
+                        @foreach ($dosen as $item)
+                            <option value="{{ $item->id }}" {{ $selected_dosen == $item->id ? 'selected' : '' }}>
+                                {{ $item->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div class="form-group mb-3">
+                    <a href="{{ route('admin.data-mahasiswa.report',['nama_dosen_pa'=>$selected_dosen]) }}" target="_blank" class="btn btn-danger btn-sm">
+                        Cetak <i class="fa fa-download" aria-hidden="true"></i></a>
+                </div>
+                <div class="form-group mb-3 text-right">
+                    <button class="btn text-white btn-sm mb-1" type="submit" style="background: #0CB7C2">
+                        Cari <i class="fas fa-fw fa-search text-white"></i>
+                    </button>
+                    @if ($selected_dosen)
+                        <br>
+                        <a href="{{ route('admin.data-mahasiswa.index') }}" class="btn btn-sm btn-danger">Reset</a>
+                    @endif
+                </div>
+            </div>
+            </form>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" id="dataTable" cellspacing="0">
                     <thead>

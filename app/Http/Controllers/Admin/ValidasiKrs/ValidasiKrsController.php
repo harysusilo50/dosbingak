@@ -78,7 +78,7 @@ class ValidasiKrsController extends Controller
         if (Auth::user()->role == 'dosen') {
             $selected_dosen = Auth::id();
         } else {
-            $selected_dosen = $request->nama_dosen_pa ?? '';
+            $selected_dosen = $request->selected_dosen ?? '';
         }
 
         $selected_status = $request->status ?? '';

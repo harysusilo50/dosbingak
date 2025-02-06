@@ -46,7 +46,7 @@
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="form-group mb-3">
-                        <a href="{{ route('bimbingan-akademik.report') }}" target="_blank" class="btn btn-danger btn-sm"> Cetak <i class="fa fa-download" aria-hidden="true"></i></a>
+                        <a href="{{ route('bimbingan-akademik.report',['selected_dosen'=>$selected_dosen]) }}" target="_blank" class="btn btn-danger btn-sm"> Cetak <i class="fa fa-download" aria-hidden="true"></i></a>
                     </div>
                     <div class="form-group mb-3 text-right">
                         <button class="btn text-white btn-sm mb-1" type="submit" style="background: #0CB7C2">

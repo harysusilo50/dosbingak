@@ -28,7 +28,7 @@ class BimbinganAkademikController extends Controller
         $semesterNow = $this->cekSemester();
         $user = User::findOrFail(Auth::id());
         $dosen_id = User::where(['nama' => $user->nama_dosen_pa, 'role' => 'dosen'])->first() ?? '';
-        $tanggal_konsultasi = JadwalBimbingan::where('dosen_id', $dosen_id->id)->get();
+        $tanggal_konsultasi = JadwalBimbingan::where('dosen_id', $dosen_id->id)->whereRaw('CONCAT(tanggal," ",start_at) >= ?',[now()])->get();
         return view('pages.bimbingan_akademik.create', compact('semesterNow', 'user', 'tanggal_konsultasi'));
     }
 

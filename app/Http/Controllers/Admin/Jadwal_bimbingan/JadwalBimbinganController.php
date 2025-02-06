@@ -16,13 +16,17 @@ class JadwalBimbinganController extends Controller
     {
         if (Auth::user()->role == 'dosen') {
             $selected_dosen = Auth::id();
-        } elseif (Auth::user()->role = 'user') {
+        } elseif (Auth::user()->role == 'user') {
             $qDosen = User::where(['role' => 'dosen', 'nama' => Auth::user()->nama_dosen_pa])->first() ?? '';
             $selected_dosen = $qDosen ? $qDosen->id : '';
         } else {
             $selected_dosen = $request->nama_dosen_pa ?? '';
         }
-        $dosen = User::where('role', 'dosen')->get();
+        $dosen = User::where('role', 'dosen')
+            ->when(Auth::user()->role != 'admin' && $selected_dosen, function ($query) use ($selected_dosen) {
+                return $query->where('id', $selected_dosen);
+            })
+            ->get();
         $jadwal = JadwalBimbingan::with('dosen')
             ->when($selected_dosen, function ($query) use ($selected_dosen) {
                 return $query->where('dosen_id', $selected_dosen);
