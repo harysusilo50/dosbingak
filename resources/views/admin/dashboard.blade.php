@@ -55,21 +55,15 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="h6 font-weight-bold text-info mb-1">
-                                Total Mahasiswa yang Bimbingan Akademik
+                                Total Bimbingan Akademik
                             </div>
+                            <h5 class="h3 font-weight-bold mb-1">{{ $totalDosen }}</h5>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-chalkboard-teacher fa-3x text-gray-300"></i>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-middle text-center" style="height: 24px">
-                        <p class="h5 font-weight-bold align-middle">{{ $presentasi }}%</p>
-                        <div class="progress w-75 my-auto">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
-                                aria-valuenow="{{ $presentasi }}" aria-valuemin="0" aria-valuemax="100"
-                                style="width: {{ $presentasi }}%"></div>
-                        </div>
-                    </div>
+                   
                 </div>
                 <a class="card-footer py-0 text-decoration-none text-center text-info" href="">
                     <small class="my-auto font">More Info <i class="fas fa-fw fa-arrow-alt-circle-right"></i></small>
@@ -90,11 +84,8 @@
                         @endphp
                         <div>
                             <label class="col-form-label font-weight-bold">{{ $item['nama_dosen'] }}</label>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar"
-                                    style="width: {{ $item['presentase'] }}%; background-color: {{ $faker->safeHexColor() }}"
-                                    aria-valuenow="{{ $item['presentase'] }}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ $item['presentase'] }}%</div>
+                            <div class="text-left d-flex justify-content-end">
+                                {{ $item['presentase'] }}
                             </div>
                         </div>
                     @endforeach

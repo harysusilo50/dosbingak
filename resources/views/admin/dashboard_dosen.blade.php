@@ -54,16 +54,10 @@
                             <div class="h6 font-weight-bold text-primary mb-1">
                                 Data Mahasiswa Bimbingan
                             </div>
+                            <h5>{{ $presentasi }}</h5>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-chart-bar fa-3x text-gray-300"></i>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-middle text-center" style="height: 24px">
-                        <p class="h5 font-weight-bold align-middle">{{ $presentasi }}%</p>
-                        <div class="progress w-75 my-auto" >
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                                aria-valuenow="{{ $presentasi }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ $presentasi }}%"></div>
                         </div>
                     </div>
                 </div>

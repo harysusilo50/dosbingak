@@ -19,13 +19,7 @@ class DashboardController extends Controller
     public function index()
     {
         if (Auth::user()->role == 'dosen') {
-            $userTotal = BimbinganAkademik::where('dosen_id', Auth::id())->where('status', '!=', 'ditolak')->count();
-            $userBimbingan = BimbinganAkademik::where('dosen_id', Auth::id())->where('status', 'selesai')->count();
-            if (empty($userTotal)) {
-                $presentasi = 0;
-            } else {
-                $presentasi = round((100 * $userBimbingan) / $userTotal,1);
-            }
+            $presentasi = User::where('nama_dosen_pa', Auth::user()->nama)->where('role', 'user')->count();
 
             return view('admin.dashboard_dosen', compact('presentasi'));
         }
@@ -37,30 +31,17 @@ class DashboardController extends Controller
 
         $chartBimbingan = [];
         foreach ($listDosen as $key => $item) {
-            $bimbinganDosenTotal = BimbinganAkademik::where('dosen_id', $item->id)->where('status', '!=', 'ditolak')->count();
             $bimbinganSelesai = BimbinganAkademik::where('dosen_id', $item->id)->where('status', 'selesai')->count();
-
-            if (empty($bimbinganDosenTotal)) {
-                $presentasi = 0;
-            } else {
-                $presentasi = round((100 * $bimbinganSelesai) / $bimbinganDosenTotal,1);
-            }
 
             $chartBimbingan[$key] = [
                 'nama_dosen' => $item->nama,
-                'presentase' => $presentasi,
+                'presentase' => $bimbinganSelesai,
 
             ];
         }
 
-        $userTotal = BimbinganAkademik::where('status', '!=', 'ditolak')->count();
         $userBimbingan = BimbinganAkademik::where('status', 'selesai')->count();
-        if (empty($userTotal)) {
-            $presentasi = 0;
-        } else {
-            $presentasi = round((100 * $userBimbingan) / $userTotal,1);
-        }
 
-        return view('admin.dashboard', compact('presentasi', 'totalMahasiswa', 'totalDosen', 'chartBimbingan'));
+        return view('admin.dashboard', compact('userBimbingan', 'totalMahasiswa', 'totalDosen', 'chartBimbingan'));
     }
 }
