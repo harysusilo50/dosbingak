@@ -84,10 +84,11 @@
                         @endphp
                         <div>
                             <label class="col-form-label font-weight-bold">{{ $item['nama_dosen'] }}</label>
-                            <div class="text-left d-flex justify-content-end">
+                            <div class="text-left d-flex justify-content-end h4 font-weight-bold">
                                 {{ $item['presentase'] }}
                             </div>
                         </div>
+                        <div class="dropdown-divider"></div>
                     @endforeach
                 </div>
             </div>
