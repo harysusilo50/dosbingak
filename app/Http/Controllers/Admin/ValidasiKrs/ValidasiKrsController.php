@@ -45,7 +45,7 @@ class ValidasiKrsController extends Controller
             $data->save();
 
             DB::commit();
-            Alert::success('Success', 'Permohonan Persetujuan KRS Akademik Berhasil Disetujui');
+            Alert::success('Success', 'Permohonan Persetujuan Surat Berhasil Disetujui');
             return redirect()->back();
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -64,7 +64,7 @@ class ValidasiKrsController extends Controller
             $data->save();
 
             DB::commit();
-            Alert::success('Success', 'Permohonan Persetujuan KRS Akademik Berhasil Ditolak');
+            Alert::success('Success', 'Permohonan Persetujuan Surat Berhasil Ditolak');
             return redirect()->back();
         } catch (\Throwable $th) {
             DB::rollBack();

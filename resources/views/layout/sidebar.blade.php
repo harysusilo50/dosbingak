@@ -47,7 +47,7 @@
         <li class="nav-item {{ Request::is('admin/persetujuan-krs') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.validasi-krs.index') }}">
                 <i class="fas fa-fw fa-list"></i>
-                <span>Persetujuan KRS</span></a>
+                <span>Persetujuan Surat</span></a>
         </li>
         <li class="nav-item {{ Request::is('admin/jadwal-bimbingan') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('jadwal-bimbingan.index') }}">
@@ -75,7 +75,7 @@
         <li class="nav-item {{ Request::is('admin/persetujuan-krs') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.validasi-krs.index') }}">
                 <i class="fas fa-fw fa-list"></i>
-                <span>Persetujuan KRS</span></a>
+                <span>Persetujuan Surat</span></a>
         </li>
         <li class="nav-item {{ Request::is('admin/jadwal-bimbingan') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('jadwal-bimbingan.index') }}">
@@ -102,7 +102,7 @@
         <li class="nav-item {{ Request::is('persetujuan-krs') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('validasi-krs.index') }}">
                 <i class="fas fa-fw fa-list"></i>
-                <span>Persetujuan KRS</span></a>
+                <span>Persetujuan Surat</span></a>
         </li>
     @endif
 

@@ -12,7 +12,7 @@
         <!-- Card Header - Dropdown -->
         <div
             class="card-header py-3 d-flex flex-row align-items-center justify-content-between"style="border-radius: 10px 10px 0px 0px">
-            <h6 class="m-0 font-weight-bold text-muted"><i class="fas fa-list mr-1"></i> Persetujuan KRS</h6>
+            <h6 class="m-0 font-weight-bold text-muted"><i class="fas fa-list mr-1"></i> Persetujuan Surat</h6>
         </div>
         <!-- Card Body -->
         <div class="card-body">
@@ -68,7 +68,7 @@
                             <th>Nama Mahasiswa</th>
                             <th>NIM</th>
                             <th>Angkatan</th>
-                            <th>Semester</th>
+                            <th>Keterangan Surat</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Aksi</th>
                             <th>Keterangan</th>
@@ -81,7 +81,7 @@
                                 <td>{{ $item->mahasiswa->nama }}</td>
                                 <td>{{ $item->mahasiswa->noreg }}</td>
                                 <td>{{ $item->mahasiswa->angkatan }}</td>
-                                <td>{{ $item->semester }}</td>
+                                <td>{{ $item->ketarangan_surat }}</td>
                                 <td class="text-center">
                                     @switch($item->status)
                                         @case('menunggu')
@@ -119,7 +119,7 @@
                                             <!-- Modal Setujui -->
                                             <div class="modal fade" id="modalSetujui" tabindex="-1" role="dialog"
                                                 aria-labelledby="modelTitleId" aria-hidden="true">
-                                                <div class="modal-dialog modal-sm" role="document">
+                                                <div class="modal-dialog modal-lg" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header bg-success">
                                                             <h5 class="modal-title text-white">Setujui Permohonan KRS</h5>
@@ -134,7 +134,8 @@
                                                             <input type="text" class="d-none" name="validasiKrs_id"
                                                                 value="{{ $item->id }}">
                                                             <div class="modal-body">
-                                                                Apakah anda yakin setujui permohonan KRS ini?
+                                                                <p>Apakah anda yakin setujui permohonan Surat ini?</p>
+                                                                <input type="file" class="form-control form-control-file" name="file_surat" required>
                                                             </div>
                                                             <div class="modal-footer d-flex justify-content-center">
                                                                 <button type="submit"
